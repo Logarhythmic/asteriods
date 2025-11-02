@@ -22,3 +22,16 @@ class Asteroid(CircleShape):
             self.position.y = SCREEN_HEIGHT
         elif self.position.y > SCREEN_HEIGHT:
             self.position.y = 0
+    
+    def split(self):
+        self.kill()
+        if self.radius < ASTEROID_MIN_RADIUS:
+            return
+        # Create two smaller asteroids
+        angle = random.uniform(20, 50)
+        asteroid1 = Asteroid(self.position.x, self.position.y, self.radius / 2)
+        asteroid2 = Asteroid(self.position.x, self.position.y, self.radius / 2)
+        asteroid1.velocity = 1.2 * self.velocity.rotate(angle)
+        asteroid2.velocity = 1.2 * self.velocity.rotate(-angle)
+        asteroid1.add(Asteroid.containers)
+        asteroid2.add(Asteroid.containers)
